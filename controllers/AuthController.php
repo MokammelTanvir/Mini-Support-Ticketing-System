@@ -13,6 +13,14 @@ class AuthController
     // Login user (token-based)
     public function login()
     {
+        // Rate limiting for login attempts (by IP address)
+        $clientIP = RateLimit::getClientIP();
+        $maxAttempts = 10; // 10 login attempts per hour per IP
+        $timeWindow = 3600; // 1 hour in seconds
+
+        // Check rate limit (don't record attempt yet)
+        RateLimit::checkLimit($clientIP, 'login_attempt', $maxAttempts, $timeWindow, false);
+
         // Get request data
         $data = json_decode(file_get_contents('php://input'), true);
 
@@ -26,8 +34,14 @@ class AuthController
 
         // Check if user exists and password is correct
         if (!$user || !$this->userModel->verifyPassword($data['password'], $user['password_hash'])) {
+            // Record failed login attempt
+            RateLimit::recordAttempt($clientIP, 'login_attempt');
             Response::error('Invalid email or password', 401);
         }
+
+        // Successful login - don't record as rate limit violation
+        // But we could clear previous failed attempts for this IP
+        // RateLimit::clearLimits($clientIP, 'login_attempt');
 
         // Generate token
         $token = Auth::generateToken();

@@ -101,6 +101,15 @@ class TicketController
                 return;
             }
 
+            // Rate limiting for ticket creation
+            // Allow 5 tickets per hour per user, or 10 per hour per IP for anonymous users
+            $identifier = $user['id'] ?? RateLimit::getClientIP();
+            $maxAttempts = 5; // 5 tickets per hour
+            $timeWindow = 3600; // 1 hour in seconds
+
+            // Check rate limit
+            RateLimit::checkLimit($identifier, 'ticket_creation', $maxAttempts, $timeWindow);
+
             $input = json_decode(file_get_contents('php://input'), true);
 
             // Validation

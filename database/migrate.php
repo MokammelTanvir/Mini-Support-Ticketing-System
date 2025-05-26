@@ -26,6 +26,7 @@ try {
     echo "- departments\n";
     echo "- tickets\n";
     echo "- ticket_notes\n";
+    echo "- ticket_attachments\n";
 } catch (Exception $e) {
     echo "Migration failed: " . $e->getMessage() . "\n";
     exit(1);

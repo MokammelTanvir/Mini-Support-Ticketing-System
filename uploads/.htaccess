@@ -1,0 +1,13 @@
+# Deny direct access to uploaded files
+
+# Files should only be accessed through the API
+
+Order Deny,Allow
+Deny from all
+
+# Allow only specific file types if accessed directly (fallback)
+
+<FilesMatch "\.(jpg|jpeg|png|gif|pdf|txt|doc|docx|xls|xlsx|zip)$">
+Order Allow,Deny
+Deny from all
+</FilesMatch>

@@ -733,6 +733,106 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "File Attachments",
+            "item": [
+                {
+                    "name": "Upload Files to Ticket",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "files[]",
+                                    "type": "file",
+                                    "src": []
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/tickets/1/attachments",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets", "1", "attachments"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Ticket Attachments",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/tickets/1/attachments",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets", "1", "attachments"]
+                        }
+                    }
+                },
+                {
+                    "name": "Download Attachment",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/tickets/1/attachments/1/download",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets", "1", "attachments", "1", "download"]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Attachment",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/tickets/1/attachments/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets", "1", "attachments", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Storage Statistics (Admin)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/admin/storage/stats",
+                            "host": ["{{base_url}}"],
+                            "path": ["admin", "storage", "stats"]
+                        }
+                    }
+                }
+            ]
         }
     ]
 }

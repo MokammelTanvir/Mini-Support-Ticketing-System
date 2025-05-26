@@ -46,10 +46,26 @@ CREATE TABLE IF NOT EXISTS ticket_notes (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- Ticket Attachments table
+CREATE TABLE IF NOT EXISTS ticket_attachments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ticket_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    original_name VARCHAR(255) NOT NULL,
+    stored_name VARCHAR(255) NOT NULL,
+    file_type VARCHAR(100) NOT NULL,
+    file_size INTEGER NOT NULL,
+    file_path VARCHAR(500) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ticket_id) REFERENCES tickets(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 CREATE INDEX IF NOT EXISTS idx_tickets_user_id ON tickets(user_id);
 CREATE INDEX IF NOT EXISTS idx_tickets_department_id ON tickets(department_id);
 CREATE INDEX IF NOT EXISTS idx_tickets_status ON tickets(status);
 CREATE INDEX IF NOT EXISTS idx_ticket_notes_ticket_id ON ticket_notes(ticket_id);
-CREATE INDEX IF NOT EXISTS idx_ticket_notes_user_id ON ticket_notes(user_id); 
+CREATE INDEX IF NOT EXISTS idx_ticket_notes_user_id ON ticket_notes(user_id);
+CREATE INDEX IF NOT EXISTS idx_ticket_attachments_ticket_id ON ticket_attachments(ticket_id);

@@ -57,7 +57,12 @@ route('GET', '', function () {
             'GET /tickets/{id}/notes' => 'Get ticket notes (role-based access)',
             'POST /tickets/{id}/notes' => 'Add note to ticket (authenticated)',
             'PUT /tickets/{ticketId}/notes/{noteId}' => 'Update ticket note (note creator/admin)',
-            'DELETE /tickets/{ticketId}/notes/{noteId}' => 'Delete ticket note (note creator/admin)'
+            'DELETE /tickets/{ticketId}/notes/{noteId}' => 'Delete ticket note (note creator/admin)',
+            'POST /tickets/{id}/attachments' => 'Upload files to ticket (multipart/form-data)',
+            'GET /tickets/{id}/attachments' => 'Get ticket attachments (role-based access)',
+            'GET /tickets/{id}/attachments/{attachmentId}/download' => 'Download attachment file',
+            'DELETE /tickets/{id}/attachments/{attachmentId}' => 'Delete attachment (uploader/owner/admin)',
+            'GET /admin/storage/stats' => 'Get file storage statistics (admin only)'
         ]
     ]);
 });
@@ -230,4 +235,30 @@ route('DELETE', 'tickets/{ticketId}/notes/{noteId}', function ($ticketId, $noteI
 route('GET', 'notes/user/{userId}', function ($userId) {
     $controller = new TicketNoteController();
     $controller->getByUser($userId);
+});
+
+// File Upload/Attachment routes
+route('POST', 'tickets/{ticketId}/attachments', function ($ticketId) {
+    $controller = new AttachmentController();
+    $controller->upload($ticketId);
+});
+
+route('GET', 'tickets/{ticketId}/attachments', function ($ticketId) {
+    $controller = new AttachmentController();
+    $controller->index($ticketId);
+});
+
+route('GET', 'tickets/{ticketId}/attachments/{attachmentId}/download', function ($ticketId, $attachmentId) {
+    $controller = new AttachmentController();
+    $controller->download($ticketId, $attachmentId);
+});
+
+route('DELETE', 'tickets/{ticketId}/attachments/{attachmentId}', function ($ticketId, $attachmentId) {
+    $controller = new AttachmentController();
+    $controller->destroy($ticketId, $attachmentId);
+});
+
+route('GET', 'admin/storage/stats', function () {
+    $controller = new AttachmentController();
+    $controller->getStorageStats();
 });

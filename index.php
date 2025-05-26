@@ -15,22 +15,30 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 // Handle preflight requests
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    exit(0);
+    http_response_code(200);
+    exit;
 }
 
 // Load configuration
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/helpers/Response.php';
 require_once __DIR__ . '/helpers/Auth.php';
+require_once __DIR__ . '/helpers/RateLimit.php';
+
+// Load models
 require_once __DIR__ . '/models/User.php';
 require_once __DIR__ . '/models/Department.php';
 require_once __DIR__ . '/models/Ticket.php';
 require_once __DIR__ . '/models/TicketNote.php';
+require_once __DIR__ . '/models/TicketAttachment.php';
+
+// Load controllers
 require_once __DIR__ . '/controllers/AuthController.php';
 require_once __DIR__ . '/controllers/UserController.php';
 require_once __DIR__ . '/controllers/DepartmentController.php';
 require_once __DIR__ . '/controllers/TicketController.php';
 require_once __DIR__ . '/controllers/TicketNoteController.php';
+require_once __DIR__ . '/controllers/AttachmentController.php';
 
 // Debug request information
 error_log("=== Request Debug ===");

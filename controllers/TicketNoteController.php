@@ -81,6 +81,13 @@ class TicketNoteController
         $current_user_id = Auth::getUserId();
         $current_user_role = Auth::getUserRole();
 
+        // Rate limiting for note creation (15 notes per hour per user)
+        $maxAttempts = 15; // 15 notes per hour
+        $timeWindow = 3600; // 1 hour in seconds
+
+        // Check rate limit
+        RateLimit::checkLimit($current_user_id, 'note_creation', $maxAttempts, $timeWindow);
+
         // Check if ticket exists
         $ticket = $this->ticketModel->findById($ticketId);
         if (!$ticket) {
