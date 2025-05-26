@@ -610,6 +610,129 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "Ticket Notes Management",
+            "item": [
+                {
+                    "name": "Get Ticket Notes",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/tickets/1/notes",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets", "1", "notes"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Specific Note",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/tickets/1/notes/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets", "1", "notes", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Add Note to Ticket",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"note\": \"This is a new note added to the ticket\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/tickets/1/notes",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets", "1", "notes"]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Note",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"note\": \"This is an updated note content\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/tickets/1/notes/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets", "1", "notes", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Note",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/tickets/1/notes/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets", "1", "notes", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Notes by User (Admin/Agent)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/notes/user/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["notes", "user", "1"]
+                        }
+                    }
+                }
+            ]
         }
     ]
 }

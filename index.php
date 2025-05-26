@@ -30,6 +30,7 @@ require_once __DIR__ . '/controllers/AuthController.php';
 require_once __DIR__ . '/controllers/UserController.php';
 require_once __DIR__ . '/controllers/DepartmentController.php';
 require_once __DIR__ . '/controllers/TicketController.php';
+require_once __DIR__ . '/controllers/TicketNoteController.php';
 
 // Debug request information
 error_log("=== Request Debug ===");

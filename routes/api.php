@@ -53,7 +53,11 @@ route('GET', '', function () {
             'POST /tickets/{id}/assign' => 'Assign ticket to agent (admin/agent)',
             'PUT /tickets/{id}/status' => 'Change ticket status (admin/agent)',
             'GET /tickets/stats/summary' => 'Get ticket statistics (admin/agent)',
-            'GET /tickets/assigned/me' => 'Get my assigned tickets (agent)'
+            'GET /tickets/assigned/me' => 'Get my assigned tickets (agent)',
+            'GET /tickets/{id}/notes' => 'Get ticket notes (role-based access)',
+            'POST /tickets/{id}/notes' => 'Add note to ticket (authenticated)',
+            'PUT /tickets/{ticketId}/notes/{noteId}' => 'Update ticket note (note creator/admin)',
+            'DELETE /tickets/{ticketId}/notes/{noteId}' => 'Delete ticket note (note creator/admin)'
         ]
     ]);
 });
@@ -195,4 +199,35 @@ route('GET', 'tickets/stats/summary', function () {
 route('GET', 'tickets/assigned/me', function () {
     $controller = new TicketController();
     $controller->getMyAssigned();
+});
+
+// Ticket Notes routes
+route('GET', 'tickets/{ticketId}/notes', function ($ticketId) {
+    $controller = new TicketNoteController();
+    $controller->index($ticketId);
+});
+
+route('GET', 'tickets/{ticketId}/notes/{noteId}', function ($ticketId, $noteId) {
+    $controller = new TicketNoteController();
+    $controller->show($ticketId, $noteId);
+});
+
+route('POST', 'tickets/{ticketId}/notes', function ($ticketId) {
+    $controller = new TicketNoteController();
+    $controller->store($ticketId);
+});
+
+route('PUT', 'tickets/{ticketId}/notes/{noteId}', function ($ticketId, $noteId) {
+    $controller = new TicketNoteController();
+    $controller->update($ticketId, $noteId);
+});
+
+route('DELETE', 'tickets/{ticketId}/notes/{noteId}', function ($ticketId, $noteId) {
+    $controller = new TicketNoteController();
+    $controller->destroy($ticketId, $noteId);
+});
+
+route('GET', 'notes/user/{userId}', function ($userId) {
+    $controller = new TicketNoteController();
+    $controller->getByUser($userId);
 });

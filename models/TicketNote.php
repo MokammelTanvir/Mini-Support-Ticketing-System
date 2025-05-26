@@ -18,11 +18,14 @@ class TicketNote
             VALUES (:ticket_id, :user_id, :note)
         ");
 
-        return $stmt->execute([
+        if ($stmt->execute([
             ':ticket_id' => $data['ticket_id'],
             ':user_id' => $data['user_id'],
             ':note' => $data['note']
-        ]);
+        ])) {
+            return $this->db->lastInsertId();
+        }
+        return false;
     }
 
     // Get all notes for a ticket
@@ -40,6 +43,12 @@ class TicketNote
         ");
         $stmt->execute([':ticket_id' => $ticket_id]);
         return $stmt->fetchAll();
+    }
+
+    // Get all notes for a ticket (alias for consistency)
+    public function getByTicketId($ticket_id)
+    {
+        return $this->getByTicket($ticket_id);
     }
 
     // Find note by ID
@@ -95,6 +104,12 @@ class TicketNote
         ");
         $stmt->execute([':user_id' => $user_id]);
         return $stmt->fetchAll();
+    }
+
+    // Get notes by user (alias for consistency)
+    public function getByUserId($user_id)
+    {
+        return $this->getByUser($user_id);
     }
 
     // Get recent notes (for dashboard)
