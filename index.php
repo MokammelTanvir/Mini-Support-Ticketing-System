@@ -15,33 +15,54 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 // Handle preflight requests
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
+    exit(0);
 }
 
 // Start session
 session_start();
 
 // Load configuration
-require_once 'config/database.php';
-require_once 'helpers/Response.php';
-require_once 'helpers/Auth.php';
+require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/helpers/Response.php';
+require_once __DIR__ . '/helpers/Auth.php';
+require_once __DIR__ . '/models/User.php';
+require_once __DIR__ . '/models/Department.php';
+require_once __DIR__ . '/models/Ticket.php';
+require_once __DIR__ . '/models/TicketNote.php';
+require_once __DIR__ . '/controllers/AuthController.php';
 
-// Get request method and URI
-$method = $_SERVER['REQUEST_METHOD'];
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+// Debug request information
+error_log("=== Request Debug ===");
+error_log("Request Method: " . $_SERVER['REQUEST_METHOD']);
+error_log("Request URI: " . $_SERVER['REQUEST_URI']);
+error_log("Raw input: " . file_get_contents('php://input'));
 
-// Remove base path if running in subdirectory
-$basePath = dirname($_SERVER['SCRIPT_NAME']);
-if ($basePath !== '/') {
-    $uri = substr($uri, strlen($basePath));
+// Get request URI
+$uri = $_SERVER['REQUEST_URI'];
+error_log("Original URI: " . $uri);
+
+// Remove query string
+if (($pos = strpos($uri, '?')) !== false) {
+    $uri = substr($uri, 0, $pos);
 }
 
-// Remove leading slash
+// Handle both cases: direct PHP server and with /api prefix
+$base_path = '';
+if (strpos($uri, '/api') === 0) {
+    $base_path = '/api';
+    $uri = substr($uri, strlen($base_path));
+}
+
+// Remove leading slash to normalize
 $uri = ltrim($uri, '/');
+// Remove trailing slash
+$uri = rtrim($uri, '/');
 
-// Load router
-require_once 'routes/api.php';
+error_log("URI after processing: '" . $uri . "'");
+error_log("=== End Request Debug ===");
 
-// If no route matches, return 404
+// Load routes
+require_once __DIR__ . '/routes/api.php';
+
+// Handle 404
 Response::error('Route not found', 404);

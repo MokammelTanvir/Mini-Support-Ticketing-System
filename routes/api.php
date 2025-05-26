@@ -7,20 +7,31 @@ function route($method, $pattern, $callback)
     global $uri;
     $request_method = $_SERVER['REQUEST_METHOD'];
 
+    error_log("=== Route Debug ===");
+    error_log("Request Method: " . $request_method);
+    error_log("Expected Method: " . $method);
+    error_log("Current URI: " . $uri);
+    error_log("Pattern to match: " . $pattern);
+
     if ($request_method !== $method) {
+        error_log("Method mismatch: Expected $method, got $request_method");
         return false;
     }
 
     // Convert pattern to regex
     $pattern = preg_replace('/\{([^}]+)\}/', '([^/]+)', $pattern);
     $pattern = '#^' . $pattern . '$#';
+    error_log("Regex pattern: $pattern");
 
     if (preg_match($pattern, $uri, $matches)) {
+        error_log("Route matched successfully!");
         array_shift($matches); // Remove full match
         call_user_func_array($callback, $matches);
         return true;
     }
 
+    error_log("Route did not match");
+    error_log("=== End Route Debug ===");
     return false;
 }
 
@@ -29,15 +40,9 @@ route('GET', '', function () {
     Response::success('Mini Support Ticketing System API', [
         'version' => '1.0.0',
         'endpoints' => [
-            'POST /auth/register' => 'User registration',
             'POST /auth/login' => 'User login',
             'POST /auth/logout' => 'User logout',
-            'GET /users' => 'Get all users (admin only)',
-            'GET /departments' => 'Get all departments',
-            'POST /departments' => 'Create department (admin only)',
-            'GET /tickets' => 'Get tickets',
-            'POST /tickets' => 'Create ticket',
-            'PUT /tickets/{id}' => 'Update ticket'
+            'GET /auth/profile' => 'Get user profile'
         ]
     ]);
 });
@@ -50,17 +55,27 @@ route('GET', 'health', function () {
     ]);
 });
 
-// Auth routes (will implement these next)
+// Registration Route
 route('POST', 'auth/register', function () {
-    Response::error('Not implemented yet', 501);
+    $controller = new AuthController();
+    $controller->register();
 });
 
+// Authentication Routes
 route('POST', 'auth/login', function () {
-    Response::error('Not implemented yet', 501);
+    error_log("Login route handler called");
+    $controller = new AuthController();
+    $controller->login();
 });
 
 route('POST', 'auth/logout', function () {
-    Response::error('Not implemented yet', 501);
+    $controller = new AuthController();
+    $controller->logout();
+});
+
+route('GET', 'auth/profile', function () {
+    $controller = new AuthController();
+    $controller->profile();
 });
 
 // User routes

@@ -85,32 +85,59 @@ class Auth
         return self::validateToken($token);
     }
 
-    // Middleware to require authentication
-    public static function requireAuth()
+    // Check if user is logged in
+    public static function isLoggedIn()
     {
-        $user_id = self::check();
-        if (!$user_id) {
-            Response::unauthorized('Authentication required');
-        }
-        return $user_id;
+        return isset($_SESSION['user_id']);
     }
 
-    // Clean expired tokens
-    public static function cleanExpiredTokens()
+    // Get current user ID
+    public static function getUserId()
     {
-        $tokens = self::getTokens();
-        $current_time = time();
-        $cleaned = false;
+        return $_SESSION['user_id'] ?? null;
+    }
 
-        foreach ($tokens as $token => $data) {
-            if ($data['expires_at'] < $current_time) {
-                unset($tokens[$token]);
-                $cleaned = true;
-            }
+    // Get current user role
+    public static function getUserRole()
+    {
+        return $_SESSION['user_role'] ?? null;
+    }
+
+    // Check if user is admin
+    public static function isAdmin()
+    {
+        return self::getUserRole() === 'admin';
+    }
+
+    // Check if user is agent
+    public static function isAgent()
+    {
+        return self::getUserRole() === 'agent';
+    }
+
+    // Require authentication
+    public static function requireAuth()
+    {
+        if (!self::isLoggedIn()) {
+            Response::error('Authentication required', 401);
         }
+    }
 
-        if ($cleaned) {
-            file_put_contents(self::$tokens_file, json_encode($tokens, JSON_PRETTY_PRINT));
+    // Require admin role
+    public static function requireAdmin()
+    {
+        self::requireAuth();
+        if (!self::isAdmin()) {
+            Response::error('Admin access required', 403);
+        }
+    }
+
+    // Require agent role
+    public static function requireAgent()
+    {
+        self::requireAuth();
+        if (!self::isAgent()) {
+            Response::error('Agent access required', 403);
         }
     }
 }

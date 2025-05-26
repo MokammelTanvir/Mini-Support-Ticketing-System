@@ -4,6 +4,9 @@
 require_once __DIR__ . '/../config/database.php';
 
 try {
+    // Get database connection
+    $db = Database::getInstance()->getConnection();
+
     // Read schema file
     $schema = file_get_contents(__DIR__ . '/schema.sql');
 
