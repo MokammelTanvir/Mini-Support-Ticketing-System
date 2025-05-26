@@ -27,6 +27,9 @@ require_once __DIR__ . '/models/Department.php';
 require_once __DIR__ . '/models/Ticket.php';
 require_once __DIR__ . '/models/TicketNote.php';
 require_once __DIR__ . '/controllers/AuthController.php';
+require_once __DIR__ . '/controllers/UserController.php';
+require_once __DIR__ . '/controllers/DepartmentController.php';
+require_once __DIR__ . '/controllers/TicketController.php';
 
 // Debug request information
 error_log("=== Request Debug ===");

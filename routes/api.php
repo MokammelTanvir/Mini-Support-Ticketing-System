@@ -42,7 +42,18 @@ route('GET', '', function () {
         'endpoints' => [
             'POST /auth/login' => 'User login',
             'POST /auth/logout' => 'User logout',
-            'GET /auth/profile' => 'Get user profile'
+            'GET /auth/profile' => 'Get user profile',
+            'GET /users' => 'Get all users (admin only)',
+            'GET /departments' => 'Get all departments (authenticated)',
+            'POST /departments' => 'Create department (admin only)',
+            'GET /tickets' => 'Get tickets (role-based access)',
+            'POST /tickets' => 'Create new ticket (authenticated)',
+            'PUT /tickets/{id}' => 'Update ticket (role-based access)',
+            'DELETE /tickets/{id}' => 'Delete ticket (admin only)',
+            'POST /tickets/{id}/assign' => 'Assign ticket to agent (admin/agent)',
+            'PUT /tickets/{id}/status' => 'Change ticket status (admin/agent)',
+            'GET /tickets/stats/summary' => 'Get ticket statistics (admin/agent)',
+            'GET /tickets/assigned/me' => 'Get my assigned tickets (agent)'
         ]
     ]);
 });
@@ -80,27 +91,108 @@ route('GET', 'auth/profile', function () {
 
 // User routes
 route('GET', 'users', function () {
-    Response::error('Not implemented yet', 501);
+    $controller = new UserController();
+    $controller->index();
 });
 
-// Department routes  
+route('GET', 'users/{id}', function ($id) {
+    $controller = new UserController();
+    $controller->show($id);
+});
+
+route('POST', 'users', function () {
+    $controller = new UserController();
+    $controller->store();
+});
+
+route('PUT', 'users/{id}', function ($id) {
+    $controller = new UserController();
+    $controller->update($id);
+});
+
+route('DELETE', 'users/{id}', function ($id) {
+    $controller = new UserController();
+    $controller->destroy($id);
+});
+
+route('GET', 'users/role/{role}', function ($role) {
+    $controller = new UserController();
+    $controller->getByRole($role);
+});
+
+// Department routes (authenticated users can view, admin only for CUD operations)
 route('GET', 'departments', function () {
-    Response::error('Not implemented yet', 501);
+    $controller = new DepartmentController();
+    $controller->index();
+});
+
+route('GET', 'departments/{id}', function ($id) {
+    $controller = new DepartmentController();
+    $controller->show($id);
 });
 
 route('POST', 'departments', function () {
-    Response::error('Not implemented yet', 501);
+    $controller = new DepartmentController();
+    $controller->store();
+});
+
+route('PUT', 'departments/{id}', function ($id) {
+    $controller = new DepartmentController();
+    $controller->update($id);
+});
+
+route('DELETE', 'departments/{id}', function ($id) {
+    $controller = new DepartmentController();
+    $controller->destroy($id);
+});
+
+route('GET', 'departments/stats/ticket-count', function () {
+    $controller = new DepartmentController();
+    $controller->getWithTicketCount();
 });
 
 // Ticket routes
 route('GET', 'tickets', function () {
-    Response::error('Not implemented yet', 501);
+    $controller = new TicketController();
+    $controller->index();
+});
+
+route('GET', 'tickets/{id}', function ($id) {
+    $controller = new TicketController();
+    $controller->show($id);
 });
 
 route('POST', 'tickets', function () {
-    Response::error('Not implemented yet', 501);
+    $controller = new TicketController();
+    $controller->store();
 });
 
 route('PUT', 'tickets/{id}', function ($id) {
-    Response::error('Not implemented yet', 501);
+    $controller = new TicketController();
+    $controller->update($id);
+});
+
+route('DELETE', 'tickets/{id}', function ($id) {
+    $controller = new TicketController();
+    $controller->destroy($id);
+});
+
+route('POST', 'tickets/{id}/assign', function ($id) {
+    $controller = new TicketController();
+    $controller->assign($id);
+});
+
+route('PUT', 'tickets/{id}/status', function ($id) {
+    $controller = new TicketController();
+    $controller->changeStatus($id);
+});
+
+route('GET', 'tickets/stats/summary', function () {
+    $controller = new TicketController();
+    $controller->getStats();
+});
+
+route('GET', 'tickets/assigned/me', function () {
+    $controller = new TicketController();
+    $controller->getMyAssigned();
 });

@@ -41,19 +41,19 @@ try {
         'role' => 'agent'
     ]);
 
-    // Customer users (agents can also submit tickets)
+    // Customer users (regular users who submit tickets)
     $userModel->create([
         'name' => 'Customer One',
         'email' => 'customer1@gmail.com',
         'password' => 'customer123',
-        'role' => 'agent'
+        'role' => 'user'
     ]);
 
     $userModel->create([
         'name' => 'Customer Two',
         'email' => 'customer2@gmail.com',
         'password' => 'customer123',
-        'role' => 'agent'
+        'role' => 'user'
     ]);
 
     echo "✓ Created 5 users\n";

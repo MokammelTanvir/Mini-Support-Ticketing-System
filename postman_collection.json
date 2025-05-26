@@ -124,38 +124,492 @@
             ]
         },
         {
-            "name": "Users (Not Implemented)",
-            "request": {
-                "method": "GET",
-                "header": [
-                    {
-                        "key": "Content-Type",
-                        "value": "application/json"
+            "name": "User Management",
+            "item": [
+                {
+                    "name": "Get All Users (Admin Only)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/users",
+                            "host": ["{{base_url}}"],
+                            "path": ["users"]
+                        }
                     }
-                ],
-                "url": {
-                    "raw": "{{base_url}}/users",
-                    "host": ["{{base_url}}"],
-                    "path": ["users"]
+                },
+                {
+                    "name": "Get User by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/users/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["users", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Create User (Admin Only)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"New Agent\",\n    \"email\": \"newagent@gmail.com\",\n    \"password\": \"agent123\",\n    \"role\": \"agent\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/users",
+                            "host": ["{{base_url}}"],
+                            "path": ["users"]
+                        }
+                    }
+                },
+                {
+                    "name": "Update User",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Updated Name\",\n    \"email\": \"updated@gmail.com\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/users/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["users", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete User (Admin Only)",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/users/5",
+                            "host": ["{{base_url}}"],
+                            "path": ["users", "5"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Users by Role (Admin Only)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/users/role/agent",
+                            "host": ["{{base_url}}"],
+                            "path": ["users", "role", "agent"]
+                        }
+                    }
                 }
-            }
+            ]
         },
         {
-            "name": "Departments (Not Implemented)",
-            "request": {
-                "method": "GET",
-                "header": [
-                    {
-                        "key": "Content-Type",
-                        "value": "application/json"
+            "name": "Department Management",
+            "item": [
+                {
+                    "name": "Get All Departments",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/departments",
+                            "host": ["{{base_url}}"],
+                            "path": ["departments"]
+                        }
                     }
-                ],
-                "url": {
-                    "raw": "{{base_url}}/departments",
-                    "host": ["{{base_url}}"],
-                    "path": ["departments"]
+                },
+                {
+                    "name": "Get Department by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/departments/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["departments", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Department (Admin Only)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Quality Assurance\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/departments",
+                            "host": ["{{base_url}}"],
+                            "path": ["departments"]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Department (Admin Only)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Quality Control\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/departments/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["departments", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Department (Admin Only)",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/departments/7",
+                            "host": ["{{base_url}}"],
+                            "path": ["departments", "7"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Departments with Ticket Counts (Admin Only)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/departments/stats/ticket-count",
+                            "host": ["{{base_url}}"],
+                            "path": ["departments", "stats", "ticket-count"]
+                        }
+                    }
                 }
-            }
+            ]
+        },
+        {
+            "name": "Ticket Management",
+            "item": [
+                {
+                    "name": "Get All Tickets",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/tickets",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Ticket by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/tickets/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Ticket",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Test Ticket\",\n    \"description\": \"This is a test ticket created via API\",\n    \"department_id\": 1\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/tickets",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets"]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Ticket",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Updated Ticket Title\",\n    \"status\": \"in_progress\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/tickets/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Ticket (Admin Only)",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/tickets/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Assign Ticket to Agent",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"agent_id\": 2\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/tickets/1/assign",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets", "1", "assign"]
+                        }
+                    }
+                },
+                {
+                    "name": "Change Ticket Status",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"status\": \"resolved\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/tickets/1/status",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets", "1", "status"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Ticket Statistics",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/tickets/stats/summary",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets", "stats", "summary"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get My Assigned Tickets (Agent Only)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/tickets/assigned/me",
+                            "host": ["{{base_url}}"],
+                            "path": ["tickets", "assigned", "me"]
+                        }
+                    }
+                }
+            ]
         }
     ]
 }
