@@ -85,22 +85,35 @@ class Auth
         return self::validateToken($token);
     }
 
-    // Check if user is logged in
+    // Check if user is logged in (token-based)
     public static function isLoggedIn()
     {
-        return isset($_SESSION['user_id']);
+        return self::check() !== false;
     }
 
-    // Get current user ID
+    // Get current user ID (token-based)
     public static function getUserId()
     {
-        return $_SESSION['user_id'] ?? null;
+        return self::check();
     }
 
-    // Get current user role
+    // Get current user data (token-based)
+    public static function getUser()
+    {
+        $user_id = self::getUserId();
+        if (!$user_id) {
+            return null;
+        }
+
+        $userModel = new User();
+        return $userModel->findById($user_id);
+    }
+
+    // Get current user role (token-based)
     public static function getUserRole()
     {
-        return $_SESSION['user_role'] ?? null;
+        $user = self::getUser();
+        return $user ? $user['role'] : null;
     }
 
     // Check if user is admin
@@ -115,7 +128,7 @@ class Auth
         return self::getUserRole() === 'agent';
     }
 
-    // Require authentication
+    // Require authentication (token-based)
     public static function requireAuth()
     {
         if (!self::isLoggedIn()) {

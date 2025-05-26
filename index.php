@@ -18,9 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
 }
 
-// Start session
-session_start();
-
 // Load configuration
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/helpers/Response.php';

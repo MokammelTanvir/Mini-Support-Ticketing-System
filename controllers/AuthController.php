@@ -10,7 +10,7 @@ class AuthController
         $this->userModel = new User();
     }
 
-    // Login user
+    // Login user (token-based)
     public function login()
     {
         // Get request data
@@ -29,30 +29,40 @@ class AuthController
             Response::error('Invalid email or password', 401);
         }
 
+        // Generate token
+        $token = Auth::generateToken();
+
+        // Save token
+        Auth::saveToken($user['id'], $token);
+
         // Remove password hash from response
         unset($user['password_hash']);
 
-        // Set session
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['user_role'] = $user['role'];
-
-        // Return user data
+        // Return user data with token
         Response::json([
             'message' => 'Login successful',
-            'user' => $user
+            'user' => $user,
+            'token' => $token
         ]);
     }
 
-    // Logout user
+    // Logout user (token-based)
     public function logout()
     {
-        // Check if user is logged in
-        if (!Auth::isLoggedIn()) {
-            Response::error('Not logged in', 401);
+        // Get token from request
+        $token = Auth::getTokenFromRequest();
+
+        if (!$token) {
+            Response::error('No token provided', 401);
         }
 
-        // Destroy session
-        session_destroy();
+        // Validate token
+        if (!Auth::validateToken($token)) {
+            Response::error('Invalid or expired token', 401);
+        }
+
+        // Delete token
+        Auth::deleteToken($token);
 
         // Return success message
         Response::json([
@@ -60,16 +70,14 @@ class AuthController
         ]);
     }
 
-    // Get user profile
+    // Get user profile (token-based)
     public function profile()
     {
-        // Check if user is logged in
-        if (!Auth::isLoggedIn()) {
-            Response::error('Not logged in', 401);
-        }
+        // Check authentication
+        Auth::requireAuth();
 
         // Get user data
-        $user = $this->userModel->findById($_SESSION['user_id']);
+        $user = Auth::getUser();
 
         // Remove password hash from response
         unset($user['password_hash']);
